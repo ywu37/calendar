@@ -1,0 +1,115 @@
+$body-background: #FEFEFE;
+$primary-color: #333;
+$body-font-family: Verdana,sans-serif;
+$primary-font-size: 20pt;
+$primary-font-size-mobile: 10pt;
+
+* {
+    box-sizing: border-box;
+}
+body, html {
+    background: $body-background;
+    color: $primary-color;
+    font-family: $body-font-family;  
+}
+.container {
+    margin: 2%;
+}
+@mixin font-size($size){
+    font-size: $size;
+}
+.calendarHeader{
+    font-size: $primary-font-size;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin-bottom: 3%;
+}
+.dailyHeader{
+    @extend .calendarHeader;
+}
+.daily-top{
+    @extend .calendarHeader;
+    justify-content: space-between;
+     flex-wrap: nowrap;
+     a {
+         @include font-size($primary-font-size-mobile);
+     }
+}
+.weekday{
+    display: flex;
+    flex-wrap: nowrap;
+    list-style: none;
+    flex-direction: row;
+    background-color: #ddd;
+}
+.weekday-item {
+    font-size: $primary-font-size;
+    flex: 0 1 14.285%;
+    color: black;
+    text-align: center;
+}
+.CalendarDay {
+    list-style: none;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+.date {
+    @include font-size($primary-font-size);
+    text-align: center;
+    flex: 0 0 14.285%;
+    color:#666;
+    align-self: flex-start;
+    margin-top: 1%;
+    height: 60px;
+   p{
+    font-size:12pt;
+    }
+}
+ .curDate {
+     @extend .date;
+       a{
+           background-color: lightblue;
+       } 
+    }
+
+.mainPage{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    font-size: 12pt;
+    margin-top: 5%;  
+}
+@media all and(max-width: 700px) {
+    .weekday-item{
+        @include font-size($primary-font-size-mobile);
+    }
+     .calendarHeader{
+         @include font-size($primary-font-size-mobile);
+    }
+    .calendarHeader-button {
+    margin-left: 0%;
+
+    }
+    .add-event {
+        @include font-size($primary-font-size-mobile);
+         margin: 1% 1% 2% 1%;
+    }
+    .date {
+        @include font-size($primary-font-size-mobile);
+        height: 40px;
+        p{
+            font-size:8pt;
+        }
+    }
+    .dailyHeader{
+       @include font-size($primary-font-size-mobile);
+    }
+    .mainPage p{
+        @include font-size($primary-font-size-mobile);
+    }
+    .daily-Event li {
+       @include font-size($primary-font-size-mobile);
+    }
+}
