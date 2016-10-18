@@ -113,3 +113,17 @@ body, html {
        @include font-size($primary-font-size-mobile);
     }
 }
+@media all and(max-width: 400px) {
+     .tabletView {
+        display: none;
+    }
+    .mobileView {
+        margin-top: 15%;
+    }
+}
+@media all and(min-width: 401px) {
+   
+    .mobileView {
+        display: none;
+    }
+}

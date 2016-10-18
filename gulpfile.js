@@ -6,13 +6,13 @@ const autoPrefix = require("gulp-autoprefixer");
 const gulpSASS = require("gulp-sass");
 const babel = require("gulp-babel");
 const reactify = require('reactify');
-const browserify = require('browserify');   
-const uglify = require('gulp-uglify');  
-const source = require('vinyl-source-stream');  
+const browserify = require('browserify');
+const uglify = require('gulp-uglify');
+const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const cssFiles = "./public/css/source/**/*.css";
 const sassFiles = "./public/css/source/sass/**/*.scss";
-const jsxFiles = ["./public/js/source/components/calendarBody.js","./public/js/source/components/calendarHeader.js", "./public/js/source/components/calendarControl.js"];
+const jsxFiles = ["./public/js/source/components/calendarBody.js", "./public/js/source/components/calendarHeader.js", "./public/js/source/components/calendarControl.js"];
 const jsxFiles1 = "./public/js/source/components/browser.js";
 
 
@@ -37,24 +37,24 @@ gulp.task("css", () => {
         .pipe(gulp.dest("./public/css/"));
 });
 gulp.task('jsx', () => {
-   return browserify(jsxFiles) 
-    
-    .transform(reactify)
-    .bundle()
-    .pipe(source('components.js')) 
-    .pipe(buffer())  
-    //.pipe(uglify()) 
-    .pipe(gulp.dest('./public/js/'));
+    return browserify(jsxFiles)
+
+        .transform(reactify)
+        .bundle()
+        .pipe(source('components.js'))
+        .pipe(buffer())
+        //.pipe(uglify()) 
+        .pipe(gulp.dest('./public/js/'));
 });
 gulp.task('jsx1', () => {
-   return browserify(jsxFiles1) 
-    
-    .transform(reactify)
-    .bundle()
-    .pipe(source('components1.js')) 
-    .pipe(buffer())  
-    //.pipe(uglify()) 
-    .pipe(gulp.dest('./public/js/'));
+    return browserify(jsxFiles1)
+
+        .transform(reactify)
+        .bundle()
+        .pipe(source('components1.js'))
+        .pipe(buffer())
+        //.pipe(uglify()) 
+        .pipe(gulp.dest('./public/js/'));
 });
 
 // gulp.task("jsx", () => {
@@ -62,7 +62,7 @@ gulp.task('jsx1', () => {
 //         .src(jsxFiles)
 //         .pipe(babel({
 //             presets: ['es2015', 'react']
-           
+
 //         }))
 //         .pipe(concatenate("components.js"))
 //         .pipe(gulp.dest("./public/js/"));

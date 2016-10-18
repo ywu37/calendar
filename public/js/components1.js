@@ -20758,7 +20758,7 @@ module.exports = require('./lib/React');
 },{"./lib/React":53}],172:[function(require,module,exports){
 var React = require('react'),
     ReactDOM = require('react-dom'),
-    App=require('./dailyEvent.js');
+    App = require('./dailyEvent.js');
 
 var initialState = JSON.parse(document.getElementById('initial-state').innerHTML);
 var initialDate = JSON.parse(document.getElementById('initial-date').innerHTML);
@@ -20769,49 +20769,49 @@ ReactDOM.render(React.createElement(App, {items: initialState, date: initialDate
 var React = require('react')
 var ReactDOM = require('react-dom')
 const DailyHeader = require('./dailyHeader');
- var App = React.createClass({displayName: "App",
- 	getInitialState: function() {
-		 //console.log(this.props.date);
+var App = React.createClass({displayName: "App",
+	getInitialState: function () {
+		//console.log(this.props.date);
 		let temp = this.props.date.split('.');
 		// console.log(temp[0]);
-		return {items: this.props.items,
-			     date: this.props.date, 
-				 year: temp[0],
-				 month: temp[1],
-				 day: temp[2]
-			};
+		return {
+			items: this.props.items,
+			date: this.props.date,
+			year: temp[0],
+			month: temp[1],
+			day: temp[2]
+		};
 	},
-	handleClick:function(filterYear,filterMonth,filterDay,items) {
-   
+	handleClick: function (filterYear, filterMonth, filterDay, items) {
+
 		this.setState({
-		 year: filterYear,
-		 month:filterMonth,
-		 day:filterDay,
-		 items : items
+			year: filterYear,
+			month: filterMonth,
+			day: filterDay,
+			items: items
 		})
 	},
-	render:function(){
-		let a = (this.state.items).map(function(value) {
-			        return (React.createElement("div", {className: "daily-Event"}, 
-					        React.createElement("li", null, "Date and Time:  ", value.date), 
-							React.createElement("li", null, "Title:  ", value.title), 
-							React.createElement("li", null, "Location:  ", value.location), 
-							React.createElement("li", null, "Description:  ", value.description), 
-							React.createElement("hr", null)
-					)     
-					)
-			    });
+	render: function () {
+		let a = (this.state.items).map(function (value) {
+			return (React.createElement("div", {className: "daily-Event"}, 
+				React.createElement("li", null, "Title:  ", value.title), 
+				React.createElement("li", null, "Location:  ", value.location), 
+				React.createElement("li", null, "Description:  ", value.description), 
+				React.createElement("hr", null)
+			)
+			)
+		});
 		return (
 			React.createElement("div", null, 
-			
-			React.createElement(DailyHeader, {year: this.state.year, 
-			             month: this.state.month, 
-						 day: this.state.day, 
-						 updateFilter: this.handleClick}), 
-		
-			React.createElement("div", {className: "mainPage"}, React.createElement("p", null, "Events for ", this.state.month, "/", this.state.day, "/", this.state.year, ":")
-			
-			), 
+
+				React.createElement(DailyHeader, {year: this.state.year, 
+					month: this.state.month, 
+					day: this.state.day, 
+					updateFilter: this.handleClick}), 
+
+				React.createElement("div", {className: "mainPage"}, React.createElement("p", null, "Events for ", this.state.month, "/", this.state.day, "/", this.state.year, ":")
+
+				), 
 				React.createElement("div", null, a)
 			)
 		);
@@ -20824,94 +20824,94 @@ module.exports = App;
 var React = require('react')
 var ReactDOM = require('react-dom')
 var dailyHeader = React.createClass({displayName: "dailyHeader",
-			getInitialState:function(){
-				return {
-					year: this.props.year,
-					month: this.props.month-1,
-                    day: this.props.day
-				};
-			},
-			
-			handleLeftClick:function(){
-				var newDay = parseInt(this.state.day) - 1;
-				let month = this.state.month;
-                let year = this.state.year;
-                if(newDay < 1){
-					month --;
-                    if(month < 0) {
-                        month = 11;
-                        year--;
-                    }
-					newDay = new Date(year,month+1,0).getDate();
-				} 
-				this.state.day = newDay;
-                this.state.month = month;
-				this.state.year=year;
-				this.setState(this.state);       
-                var tempMonth = month + 1;
-                    $.ajax({
-            url: "/getEvents"+year+'.'+tempMonth+'.'+newDay,
+    getInitialState: function () {
+        return {
+            year: this.props.year,
+            month: this.props.month - 1,
+            day: this.props.day
+        };
+    },
+
+    handleLeftClick: function () {
+        var newDay = parseInt(this.state.day) - 1;
+        let month = this.state.month;
+        let year = this.state.year;
+        if (newDay < 1) {
+            month--;
+            if (month < 0) {
+                month = 11;
+                year--;
+            }
+            newDay = new Date(year, month + 1, 0).getDate();
+        }
+        this.state.day = newDay;
+        this.state.month = month;
+        this.state.year = year;
+        this.setState(this.state);
+        var tempMonth = month + 1;
+        $.ajax({
+            url: "/getEvents" + year + '.' + tempMonth + '.' + newDay,
             type: 'GET',
             cache: false,
             success: (items) => {
-                
-               this.props.updateFilter(year,month+1,newDay,items);
+
+                this.props.updateFilter(year, month + 1, newDay, items);
             },
             error: (xhr, status, err) => {
                 console.error(this.props.url, status, err.toString());
             }
         });
-				
-			},
-			handleRightClick:function(){
-				let month = this.state.month;
-                let year = this.state.year;
-				var newDay = parseInt(this.state.day) + 1;
-				if(newDay > new Date(year,month+1,0).getDate()){
-					month ++;
-                    if(month > 11) {
-                        month = 0;
-                        year++;
-                    }
-					newDay = 1;
-				} 
-				this.state.day = newDay;
-                this.state.month = month;
-				this.state.year=year;
-				this.setState(this.state);
-                var tempMonth = month + 1;
-                    $.ajax({
-            url: "/getEvents"+year+'.'+tempMonth+'.'+newDay,
+
+    },
+    handleRightClick: function () {
+        let month = this.state.month;
+        let year = this.state.year;
+        var newDay = parseInt(this.state.day) + 1;
+        if (newDay > new Date(year, month + 1, 0).getDate()) {
+            month++;
+            if (month > 11) {
+                month = 0;
+                year++;
+            }
+            newDay = 1;
+        }
+        this.state.day = newDay;
+        this.state.month = month;
+        this.state.year = year;
+        this.setState(this.state);
+        var tempMonth = month + 1;
+        $.ajax({
+            url: "/getEvents" + year + '.' + tempMonth + '.' + newDay,
             type: 'GET',
             cache: false,
             success: (items) => {
-               this.props.updateFilter(year,month+1,newDay,items);
+                this.props.updateFilter(year, month + 1, newDay, items);
             },
             error: (xhr, status, err) => {
                 console.error(this.props.url, status, err.toString());
             }
         });
-				
-                       },
-			render:function(){
-				var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
-				return(
-					
-					React.createElement("div", {className: "dailyHeader"}, 
-						
-						
-						 React.createElement("button", {className: "glyphicon glyphicon-chevron-left", onClick: this.handleLeftClick}), 
-						 React.createElement("p", null, "  ", monthNames[this.state.month], "   "), 
-						 React.createElement("p", null, this.state.day, "   "), React.createElement("p", null, this.state.year, "  "), 
-						
-						React.createElement("button", {className: "glyphicon glyphicon-chevron-right", onClick: this.handleRightClick})
-						
-					)
-				)
-			}
-		});
-		module.exports = dailyHeader;
+
+    },
+    render: function () {
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+        return (
+
+            React.createElement("div", {className: "dailyHeader"}, 
+
+
+                React.createElement("button", {className: "glyphicon glyphicon-chevron-left", onClick: this.handleLeftClick}), 
+                React.createElement("p", null, "  ", monthNames[this.state.month], "  "), 
+                React.createElement("p", null, this.state.day, "   "), React.createElement("p", null, this.state.year, "  "), 
+
+                React.createElement("button", {className: "glyphicon glyphicon-chevron-right", onClick: this.handleRightClick})
+
+            )
+        )
+    }
+});
+module.exports = dailyHeader;
 
 },{"react":171,"react-dom":27}]},{},[172]);

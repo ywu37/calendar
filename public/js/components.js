@@ -9442,198 +9442,215 @@ arguments[4][26][0].apply(exports,arguments)
 
 var Navigation = require('react-router')
 const CalendarBody = React.createClass({displayName: "CalendarBody",
-			mixins: [Navigation],
-			getMonthDays:function(){
-		      
-		        var year = this.props.year,
-				    month = this.props.month;
-				var temp = new Date(year,month+1,0); 
-				return temp.getDate(); 
-			},	
-			getFirstDayWeek:function(){
-                        
-				var year = this.props.year,
-				    month = this.props.month;	
-				var dt = new Date(year,month,1);
-				var Weekdays = dt.getDay();
-			
-				return Weekdays; 	
-			},
-		 render:function(){
-				var arry1 =[],arry2 = [];
-				var getDays = this.getMonthDays(),
-					FirstDayWeek = this.getFirstDayWeek(),
-					day = this.props.day;
-					year = this.props.year;
-				    month = this.props.month;
-					itemWithEvents = this.props.itemWithEvents;	
-					
-				var temp = new Date(); 
-					
-					for(var i = 0 ;i < FirstDayWeek; i++ ){
-						arry1[i] = i;
-					}
-					for(var i = 0 ;i < getDays; i++ ){
-						arry2[i] = (i+1);
-					}
-					var tt = month + 1;
-					//var id = year +'' + tt +''+day;
-			//console.log(itemWithEvents.includes('1'));
-				var node1 = arry1.map(function(item){return React.createElement("li", {className: "date"})})
-				var node2 = arry2.map(function(item){return (day == item && year == temp.getFullYear()&& month == temp.getMonth())?
-					((itemWithEvents.includes(year +'.' + tt +'.'+item))?React.createElement("li", {className: "date curDate"}, React.createElement("a", {href: '/getEvent'+year +'.' + tt +'.'+item, id: year +'.' + tt +'.'+item}, item, React.createElement("p", null, "*"))):React.createElement("li", {className: "date curDate"}, React.createElement("a", {href: '/getEvent'+year +'.' + tt +'.'+item, id: year +'.' + tt +'.'+item}, item))): (itemWithEvents.includes(year +'.' + tt +'.'+item))? React.createElement("li", {className: "date"}, React.createElement("a", {href: '/getEvent'+year +'.' + tt +'.'+item, id: year +'.' + tt +'.'+item}, item, React.createElement("p", null, "*"))):
-				    React.createElement("li", {className: "date"}, React.createElement("a", {href: '/getEvent'+year +'.' + tt +'.'+item, id: year +'.' + tt +'.'+item}, item))}.bind(this));
-				return(
-					React.createElement("div", null, 
-							React.createElement("ul", {className: "weekday"}, 
-								React.createElement("li", {className: "weekday-item"}, "SUN"), 
-								React.createElement("li", {className: "weekday-item"}, "MON"), 
-								React.createElement("li", {className: "weekday-item"}, "TUE"), 
-								React.createElement("li", {className: "weekday-item"}, "WED"), 
-								React.createElement("li", {className: "weekday-item"}, "THU"), 
-								React.createElement("li", {className: "weekday-item"}, "FRI"), 
-								React.createElement("li", {className: "weekday-item"}, "SAT")
-							), 
-						
-						 
-							React.createElement("ul", {className: "CalendarDay"}, node1, node2)
-						 
-				    )
+	mixins: [Navigation],
+	getMonthDays: function () {
+
+		var year = this.props.year,
+			month = this.props.month;
+		var temp = new Date(year, month + 1, 0);
+		return temp.getDate();
+	},
+	getFirstDayWeek: function () {
+
+		var year = this.props.year,
+			month = this.props.month;
+		var dt = new Date(year, month, 1);
+		var Weekdays = dt.getDay();
+
+		return Weekdays;
+	},
+	render: function () {
+		var arry1 = [], arry2 = [];
+		var getDays = this.getMonthDays(),
+			FirstDayWeek = this.getFirstDayWeek(),
+			day = this.props.day;
+		year = this.props.year;
+		month = this.props.month;
+		Events = this.props.itemWithEvents;
+		var itemWithEvents = [];
+		for (var i in Events) {
+			itemWithEvents.push(Events[i].date_id);
+		}
+		var temp = new Date();
+		for (var i = 0; i < FirstDayWeek; i++) {
+			arry1[i] = i;
+		}
+		for (var i = 0; i < getDays; i++) {
+			arry2[i] = (i + 1);
+		}
+		var tt = month + 1;
+		var node1 = arry1.map(function (item) { return React.createElement("li", {className: "date"}) })
+		var node2 = arry2.map(function (item) {
+			return (day == item && year == temp.getFullYear() && month == temp.getMonth()) ?
+				((itemWithEvents.includes(year + '.' + tt + '.' + item)) ? React.createElement("li", {className: "date curDate"}, React.createElement("a", {href: '/getEvent' + year + '.' + tt + '.' + item, id: year + '.' + tt + '.' + item}, item, React.createElement("p", null, "*"))) : React.createElement("li", {className: "date curDate"}, React.createElement("a", {href: '/getEvent' + year + '.' + tt + '.' + item, id: year + '.' + tt + '.' + item}, item))) : (itemWithEvents.includes(year + '.' + tt + '.' + item)) ? React.createElement("li", {className: "date"}, React.createElement("a", {href: '/getEvent' + year + '.' + tt + '.' + item, id: year + '.' + tt + '.' + item}, item, React.createElement("p", null, "*"))) :
+					React.createElement("li", {className: "date"}, React.createElement("a", {href: '/getEvent' + year + '.' + tt + '.' + item, id: year + '.' + tt + '.' + item}, item))
+		}.bind(this));
+		var node3 = Events.map(function (value) {
+
+			return (React.createElement("div", {className: "daily-Event"}, 
+				React.createElement("li", null, "Date:  ", value.date), 
+				React.createElement("li", null, "Title:  ", value.title), 
+				React.createElement("li", null, "Location:  ", value.location), 
+				React.createElement("li", null, "Description:  ", value.description), 
+				React.createElement("hr", null)
+			)
+			)
+		})
+		return (
+			React.createElement("div", null, 
+				React.createElement("div", {className: "tabletView"}, 
+					React.createElement("ul", {className: "weekday"}, 
+						React.createElement("li", {className: "weekday-item"}, "SUN"), 
+						React.createElement("li", {className: "weekday-item"}, "MON"), 
+						React.createElement("li", {className: "weekday-item"}, "TUE"), 
+						React.createElement("li", {className: "weekday-item"}, "WED"), 
+						React.createElement("li", {className: "weekday-item"}, "THU"), 
+						React.createElement("li", {className: "weekday-item"}, "FRI"), 
+						React.createElement("li", {className: "weekday-item"}, "SAT")
+					), 
+
+
+					React.createElement("ul", {className: "CalendarDay"}, node1, node2)
+
+				), 
+				React.createElement("div", {className: "mobileView"}, 
+					React.createElement("div", null, node3)
 				)
-			}
-		});
-		module.exports = CalendarBody;
+			)
+		)
+	}
+});
+module.exports = CalendarBody;
 
 },{"react-router":60}],98:[function(require,module,exports){
 
 
-		const CalendarHeader = require('./calendarHeader');
-		const CalendarBody = require('./calendarBody');
-		const CalendarControl = React.createClass({displayName: "CalendarControl",
-			getInitialState:function(){
-				var newDate =  new Date();
-				return {
-					year:newDate.getFullYear(),
-					month:newDate.getMonth(),
-					day: newDate.getDate(),
-					itemWithEvents:[]
-				};
+const CalendarHeader = require('./calendarHeader');
+const CalendarBody = require('./calendarBody');
+const CalendarControl = React.createClass({displayName: "CalendarControl",
+	getInitialState: function () {
+		var newDate = new Date();
+		return {
+			year: newDate.getFullYear(),
+			month: newDate.getMonth(),
+			day: newDate.getDate(),
+			itemWithEvents: []
+		};
+	},
+
+	handleFilterUpdate: function (filterYear, filterMonth) {
+		var tempMonth = filterMonth + 1;
+		$.ajax({
+			url: "/getItemWithEvents" + filterYear + '.' + tempMonth,
+			type: 'GET',
+			dataType: 'json',
+			cache: false,
+			success: (itemWithEvents) => {
+
+				this.setState({ itemWithEvents: itemWithEvents });
 			},
-			
-			handleFilterUpdate: function(filterYear,filterMonth) {
-						 var tempMonth = filterMonth + 1;
-        $.ajax({
-            url: "/getItemWithEvents"+filterYear+'.'+tempMonth,
-            type: 'GET',
-            dataType: 'json',
-            cache: false,
-            success: (itemWithEvents) => {
-				//console.log(itemWithEvents);
-                this.setState({itemWithEvents: itemWithEvents});
-            },
-            error: (xhr, status, err) => {
-                console.error(this.props.url, status, err.toString());
-            }
-        });
-    this.setState({
-     year: filterYear,
-     month: filterMonth,
-	 itemWithEvents:itemWithEvents
-    });
-},
-componentDidMount: function () {
-				 var tempMonth = this.state.month + 1;
-        $.ajax({
-            url: "/getItemWithEvents"+this.state.year+'.'+tempMonth,
-            type: 'GET',
-            dataType: 'json',
-            cache: false,
-            success: (itemWithEvents) => {
-				//console.log(itemWithEvents);
-                this.setState({itemWithEvents: itemWithEvents});
-            },
-            error: (xhr, status, err) => {
-                console.error(this.props.url, status, err.toString());
-            }
-        });
-    },
-			render:function(){
-				return(
-					React.createElement("div", {className: "calendarBorder"}, 
-						React.createElement(CalendarHeader, {
-							year: this.state.year, 
-							month: this.state.month, 
-							updateFilter: this.handleFilterUpdate}), 
-						React.createElement(CalendarBody, {
-							year: this.state.year, 
-							month: this.state.month, 
-							day: this.state.day, 
-							itemWithEvents: this.state.itemWithEvents}
-							)
-					)
-				)
+			error: (xhr, status, err) => {
+				console.error(this.props.url, status, err.toString());
 			}
 		});
-		
+		this.setState({
+			year: filterYear,
+			month: filterMonth,
+		});
+	},
+	componentDidMount: function () {
+		var tempMonth = this.state.month + 1;
+		$.ajax({
+			url: "/getItemWithEvents" + this.state.year + '.' + tempMonth,
+			type: 'GET',
+			dataType: 'json',
+			cache: false,
+			success: (itemWithEvents) => {
+
+				this.setState({ itemWithEvents: itemWithEvents });
+			},
+			error: (xhr, status, err) => {
+				console.error(this.props.url, status, err.toString());
+			}
+		});
+	},
+	render: function () {
+		return (
+			React.createElement("div", {className: "calendarBorder"}, 
+				React.createElement(CalendarHeader, {
+					year: this.state.year, 
+					month: this.state.month, 
+					updateFilter: this.handleFilterUpdate}), 
+				React.createElement(CalendarBody, {
+					year: this.state.year, 
+					month: this.state.month, 
+					day: this.state.day, 
+					itemWithEvents: this.state.itemWithEvents}
+					)
+			)
+		)
+	}
+});
+
 ReactDOM.render(
-    React.createElement(CalendarControl, null), document.getElementById('content'));
+	React.createElement(CalendarControl, null), document.getElementById('content'));
 
 },{"./calendarBody":97,"./calendarHeader":99}],99:[function(require,module,exports){
 
 var CalendarHeader = React.createClass({displayName: "CalendarHeader",
-			getInitialState:function(){
-				var newDate =  new Date();
-				return {
-					year: newDate.getFullYear(),
-					month: newDate.getMonth(),
-				};
-			},
-			
-			handleLeftClick:function(){
-				var newMonth = parseInt(this.state.month) - 1;
-				var year = this.state.year;
-				if(newMonth < 0){
-					year --;
-					newMonth = 11;
-				}
-				this.state.month = newMonth;
-				this.state.year=year;
-				this.setState(this.state);
-				this.props.updateFilter(year,newMonth);
- 
-			},
-			handleRightClick:function(){
-				
-				var newMonth = parseInt(this.state.month) + 1;
-				var year = this.state.year;
-				if( newMonth > 11 ){
-					year ++;
-					newMonth = 0;
-				}
-				this.state.month = newMonth;
-				this.state.year=year;
-				this.setState(this.state);
-				this.props.updateFilter(year,newMonth);
-                       },
-			render:function(){
-				var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
-				return(
-					
-					React.createElement("div", {className: "calendarHeader"}, 
-						
-						
-						 React.createElement("button", {className: "triangle-left glyphicon glyphicon-chevron-left", onClick: this.handleLeftClick}), 
-						 React.createElement("p", null, "   ", monthNames[this.state.month], "    "), 
-						 React.createElement("p", null, this.state.year, "   "), 
-						
-						React.createElement("button", {className: "triangle-right glyphicon glyphicon-chevron-right", onClick: this.handleRightClick})
-						
-					)
-				)
-			}
-		});
-		module.exports = CalendarHeader;
+	getInitialState: function () {
+		var newDate = new Date();
+		return {
+			year: newDate.getFullYear(),
+			month: newDate.getMonth(),
+		};
+	},
+
+	handleLeftClick: function () {
+		var newMonth = parseInt(this.state.month) - 1;
+		var year = this.state.year;
+		if (newMonth < 0) {
+			year--;
+			newMonth = 11;
+		}
+		this.state.month = newMonth;
+		this.state.year = year;
+		this.setState(this.state);
+		this.props.updateFilter(year, newMonth);
+
+	},
+	handleRightClick: function () {
+
+		var newMonth = parseInt(this.state.month) + 1;
+		var year = this.state.year;
+		if (newMonth > 11) {
+			year++;
+			newMonth = 0;
+		}
+		this.state.month = newMonth;
+		this.state.year = year;
+		this.setState(this.state);
+		this.props.updateFilter(year, newMonth);
+	},
+	render: function () {
+		var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+			"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+		];
+		return (
+
+			React.createElement("div", {className: "calendarHeader"}, 
+
+
+				React.createElement("button", {className: "triangle-left glyphicon glyphicon-chevron-left", onClick: this.handleLeftClick}), 
+				React.createElement("p", null, "   ", monthNames[this.state.month], "   "), 
+				React.createElement("p", null, this.state.year, "   "), 
+
+				React.createElement("button", {className: "triangle-right glyphicon glyphicon-chevron-right", onClick: this.handleRightClick})
+
+			)
+		)
+	}
+});
+module.exports = CalendarHeader;
 
 },{}]},{},[97,99,98]);

@@ -19,121 +19,135 @@ const constructorMethod = () => {
 
   function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({ width: 1200, height: 900 , minWidth: 310,minHeight: 380,webPreferences: {
-    nodeIntegration: false
-  }});
-  const dialog = electron.dialog;
-  var menu = Menu.buildFromTemplate([
-    {
-         label: 'Electron',
-          submenu: [
+    mainWindow = new BrowserWindow({
+      width: 1200, height: 900, minWidth: 310, minHeight: 380, webPreferences: {
+        nodeIntegration: false
+      }
+    });
+    const dialog = electron.dialog;
+    var menu = Menu.buildFromTemplate([
+      {
+        label: 'Electron',
+        submenu: [
           {
             label: 'Prefs',
-            click: function(){
-        
+            click: function () {
+
             }
           },
         ]
-    },
-    {
-        label : 'Modes',
+      },
+      {
+        label: 'Modes',
         submenu: [
           {
             label: 'Change to tablet',
-            click: function(){
-              mainWindow.setSize(1000,800);
+            click: function () {
+              mainWindow.setSize(1000, 800);
             }
           },
-           {
+          {
             label: 'Change to Desktop',
-            click: function(){
-              mainWindow.setSize(1200,1001);
+            click: function () {
+              mainWindow.setSize(1200, 1001);
             }
           },
-           {
+          {
             label: 'Change to Mobile Phone',
-            click: function(){
-              mainWindow.setSize(400,400);
+            click: function () {
+              mainWindow.setSize(400, 500);
             }
           }
         ]
-  },
-  {
-       label : 'File',
-            submenu: [
+      },
+      {
+        label: 'File',
+        submenu: [
           {
             label: 'Save Calendar',
-            click: function(){
-  
-     dialog.showSaveDialog({ filters: [
+            click: function () {
 
-   { name: 'calendar', extensions: ['json'] }
+              dialog.showSaveDialog({
+                filters: [
 
-  ]},function (fileName) {
-       if (fileName === undefined){
-            dialog.showMessageBox({ message: "The file has not been saved! :-)",
+                  { name: 'calendar', extensions: ['json'] }
 
-        buttons: ["OK"] });
+                ]
+              }, function (fileName) {
+                if (fileName === undefined) {
+                  dialog.showMessageBox({
+                    message: "The file has not been saved! :-)",
 
-            return;
-       }
-       // fileName is a string that contains the path and filename created in the save file dialog.  
-       fs.writeFile(fileName, JSON.stringify(data) , function (err) {
-           if(err){
-              dialog.showErrorBox("File Save Error", err.message);
+                    buttons: ["OK"]
+                  });
 
-           }
-                        
-           dialog.showMessageBox({ message: "The file has been saved! :-)",
+                  return;
+                }
+                // fileName is a string that contains the path and filename created in the save file dialog.  
+                fs.writeFile(fileName, JSON.stringify(data), function (err) {
+                  if (err) {
+                    dialog.showErrorBox("File Save Error", err.message);
 
-      buttons: ["OK"] });
-       });
-}); 
+                  }
+
+                  dialog.showMessageBox({
+                    message: "The file has been saved! :-)",
+
+                    buttons: ["OK"]
+                  });
+                });
+              });
             }
           },
-           {
+          {
             label: 'Upload Calendar',
-            click: function(){
-              dialog.showOpenDialog({ filters: [
+            click: function () {
+              dialog.showOpenDialog({
+                filters: [
 
-   { name: 'calendar', extensions: ['json'] }
+                  { name: 'calendar', extensions: ['json'] }
 
-  ]}, function (fileNames) {
+                ]
+              }, function (fileNames) {
 
-  if (fileNames === undefined) {
-            dialog.showMessageBox({ message: "The file has not been uploaded! :-)",
+                if (fileNames === undefined) {
+                  dialog.showMessageBox({
+                    message: "The file has not been uploaded! :-)",
 
-        buttons: ["OK"] });
+                    buttons: ["OK"]
+                  });
 
-            return;
-       }
+                  return;
+                }
 
-  var fileName = fileNames[0];
+                var fileName = fileNames[0];
 
-  fs.readFile(fileName, 'utf-8', function (err, data) {
+                fs.readFile(fileName, 'utf-8', function (err, data) {
 
-       if(err){
-              dialog.showErrorBox("File upload Error", err.message);
+                  if (err) {
+                    dialog.showErrorBox("File upload Error", err.message);
 
-           }
-                    fs.writeFileSync('data/events.json', data);    
-           dialog.showMessageBox({ message: "The file has been uploaded! :-)",
+                  }
+                  fs.writeFileSync('data/events.json', data);
+                  dialog.showMessageBox({
+                    message: "The file has been uploaded! :-)",
 
-      buttons: ["OK"] });
+                    buttons: ["OK"]
+                  });
 
-  });
+                });
 
- });
+              });
             }
           },
         ]
-  }
-  
-  ]);
-  Menu.setApplicationMenu(menu);
- 
+      }
+
+    ]);
+    Menu.setApplicationMenu(menu);
+
     mainWindow.loadURL('http://localhost:3000/');
-   //mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
       // Dereference the window object, usually you would store windows
