@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/Stevens-CS546/CS-554#readme",
   "devDependencies": {
-    "electron": "^1.3.4",
+    "electron": "^9.1.0",
     "electron-packager": "^8.0.0",
     "electron-rebuild": "^1.2.1",
     "babel-preset-es2015": "^6.14.0",
